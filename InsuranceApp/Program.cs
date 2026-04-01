@@ -8,10 +8,10 @@ namespace InsuranceApp
     internal class Program
     {
         // Global Variables
-        public static int laptopCounter = 0 , desktopCounter = 0 , otherCounter = 0, quanity;
+        public static int laptopCounter = 0, desktopCounter = 0, otherCounter = 0, quanity;
         public static double totalCost = 0;
         public static double deviceCost;
-       
+
         static void Main(string[] args)
         {
             // Opening page and title and app discription
@@ -44,8 +44,8 @@ namespace InsuranceApp
             Console.WriteLine("---------------------------------------------------------------------");
             Console.WriteLine($"Category 1(Laptop) has  {laptopCounter} devices insured\n");
             Console.WriteLine($"Category 2(Desktop) has {desktopCounter} devices insured\n");
-            Console.WriteLine($"Category 3(Other) has {otherCounter} devices insured\n");   
-            Console.WriteLine($"The Device Total Cost:{CalculateDiscount(quanity,deviceCost,totalCost):C}");
+            Console.WriteLine($"Category 3(Other) has {otherCounter} devices insured\n");
+            Console.WriteLine($"The Device Total Cost:{CalculateDiscount(quanity, deviceCost, totalCost):C}");
             Console.WriteLine("-----------------------------------------------------------------------");
         }
         // generate top device and cost
@@ -53,25 +53,21 @@ namespace InsuranceApp
         {
             // Local Variables
             List<string> QUESTIONS = new List<string> { $"Enter Device Category:", $"Enter the Device Name:", "Enter the number of devices from the device name from before", "Enter Device Cost:" };
-            
+
             string deviceName;
             int deviceCategory;
-            
-            
+
+
 
 
             // Ask for Category,Name,N.O of Devices and Cost
-            Console.WriteLine(QUESTIONS[0]);
-            deviceCategory = Convert.ToInt32(Console.ReadLine());
-            CheckName(QUESTIONS[1]);
-            deviceName = Console.ReadLine();
-            Console.WriteLine(QUESTIONS[2]);
-            quanity = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine(QUESTIONS[3]);
-            deviceCost = Convert.ToDouble(Console.ReadLine());
+            deviceCategory = CheckCategory(QUESTIONS[0]);
+            deviceName = CheckName(QUESTIONS[1]);
+            quanity = CheckQuanity(QUESTIONS[2]);
+            deviceCost = CheckCost(QUESTIONS[3]);
 
             // calculate insurance cost/amount
-            
+
             // show device summary
             Console.Clear();
             Console.WriteLine("------------------Device Added-------------------");
@@ -95,22 +91,22 @@ namespace InsuranceApp
             {
                 otherCounter += quanity;
             }
-            
+
             return "";
         }
         // 6 months depression
-        public static string CalculateDepression(double deviceCost)   
+        public static string CalculateDepression(double deviceCost)
         {
             //Local Variables
             double depressionCost = deviceCost;
             string depressionSummary = "";
-            for (int monthCounter = 1;  monthCounter < 7; monthCounter++)
+            for (int monthCounter = 1; monthCounter < 7; monthCounter++)
             {
                 // Calculate the device depression
                 depressionCost = depressionCost * 0.95;
                 depressionSummary += $"Month {monthCounter}: {depressionCost:C}\n";
             }
-            
+
             return depressionSummary;
         }
         // Check if y or n is y or n for another device or to not want to add
@@ -136,9 +132,9 @@ namespace InsuranceApp
             }
         }
         // Calculate the above 5 device discount
-        public static double CalculateDiscount(int quanity,double deviceCost,double totalCost)
+        public static double CalculateDiscount(int quanity, double deviceCost, double totalCost)
         {
-            
+
             if (quanity > 5)
             {
                 totalCost += (5 * deviceCost) + ((quanity - 5) * 0.9);
@@ -167,19 +163,87 @@ namespace InsuranceApp
 
                     return nameInput;
                 }
-
+                else
+                {
+                    Console.WriteLine("Error: names can only contain alphabetical letters and numbers");
+                }
             }
 
         }
         //Check if cost and quantity of devices
-        static int ChechInt(string question, int min, int max)
+        static int CheckCost(string questions)
         {
+
+            int min = 0, max = 10000;
             while (true)
             {
 
                 try
                 {
-                    Console.WriteLine(question);
+                    Console.WriteLine(questions);
+                    int userInput = Convert.ToInt32(Console.ReadLine());
+
+                    //check if user input a number between a min and max
+                    if (userInput >= min && userInput <= max)
+                    {
+                        return userInput;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Please enther a number between {min} and {max}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"Error: You must enter a number between {min} and {max}");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+
+            }
+        }
+        static int CheckCategory(string questions)
+        {
+
+            int min = 1, max = 3;
+            while (true)
+            {
+
+                try
+                {
+                    Console.WriteLine(questions);
+                    int userInput = Convert.ToInt32(Console.ReadLine());
+
+                    //check if user input a number between a min and max
+                    if (userInput >= min && userInput <= max)
+                    {
+                        return userInput;
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Please enther a number between {min} and {max}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"Error: You must enter a number between {min} and {max}");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
+
+            }
+
+        }
+        static int CheckQuanity(string questions)
+        {
+
+            int min = 1, max = 250;
+            while (true)
+            {
+
+                try
+                {
+                    Console.WriteLine(questions);
                     int userInput = Convert.ToInt32(Console.ReadLine());
 
                     //check if user input a number between a min and max
@@ -202,5 +266,4 @@ namespace InsuranceApp
             }
         }
     }
-
 }
