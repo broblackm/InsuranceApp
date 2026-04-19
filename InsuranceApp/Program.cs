@@ -57,9 +57,6 @@ namespace InsuranceApp
             string deviceName;
             int deviceCategory;
 
-
-
-
             // Ask for Category,Name,N.O of Devices and Cost
             deviceCategory = CheckCategory(QUESTIONS[0]);
             deviceName = CheckName(QUESTIONS[1]);
@@ -173,7 +170,7 @@ namespace InsuranceApp
         //Check if cost and quantity of devices
         static int CheckCost(string questions)
         {
-
+            //Local Variables
             int min = 0, max = 10000;
             while (true)
             {
